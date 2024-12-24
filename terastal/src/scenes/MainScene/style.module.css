@@ -1,0 +1,39 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px 36px;
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  width: 180px;
+  margin: 0;
+  text-align:center;
+
+  img {
+    display: block;
+  }
+}
+
+.links {
+  display: flex;
+  gap: 24px;
+
+  a {
+    img {
+      display: block;
+      height: 24px;
+    }
+  }
+}
+
+@media (width < 500px) {
+  .header {
+    padding: 16px 24px 24px;
+  }
+}
