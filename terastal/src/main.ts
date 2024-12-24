@@ -5,6 +5,7 @@ import {
   GridHelper,
   Mesh,
   PerspectiveCamera,
+  PlaneGeometry,
   Scene,
   SkinnedMesh,
   Vector2,
@@ -17,7 +18,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import Stats from 'stats.js'
 import './style.css'
-import { TelastalMaterial } from './scenes/MainScene/materials/TerastalMaterial'
+import { TelastalMaterial } from './materials/TerastalMaterial'
+import { RainbowFlareMaterial } from './materials/RainbowFlareMaterial'
 import { Manipulator } from './libs/Utsuroi'
 
 const renderer = new WebGLRenderer({ antialias: true })
@@ -25,8 +27,8 @@ renderer.setClearColor(0x000000)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 document.body.appendChild(renderer.domElement)
 
-const camera = new PerspectiveCamera()
-camera.position.set(2, 1, 6)
+const camera = new PerspectiveCamera(85)
+camera.position.set(-1.5, 0.5, 2.5)
 camera.lookAt(0, 1, 0)
 
 const controls = new OrbitControls(camera, renderer.domElement)
@@ -37,7 +39,7 @@ const scene = new Scene()
 const clock = new Clock()
 const mixer = new AnimationMixer(scene)
 
-const gridHelper = new GridHelper(10, 10)
+const gridHelper = new GridHelper(10, 10, 0x222222, 0x222222)
 scene.add(gridHelper)
 
 // 王冠
@@ -71,6 +73,12 @@ loader.load('./assets/models/zensuke.gltf', (gltf) => {
   manupulator.play('Rest Pose', true)
 })
 
+// 虹色フレアエフェクト
+const flareMaterial = new RainbowFlareMaterial()
+const flarePlaneMesh = new Mesh(new PlaneGeometry(5, 5), flareMaterial)
+flarePlaneMesh.rotation.x = -Math.PI / 2
+scene.add(flarePlaneMesh)
+
 const composer = new EffectComposer(renderer)
 composer.setPixelRatio(window.devicePixelRatio)
 composer.setSize(window.innerWidth, window.innerHeight)
@@ -82,20 +90,18 @@ const unrealBloomPass = new UnrealBloomPass(
   new Vector2(window.innerWidth, window.innerHeight),
   0.8, // strength
   2.0, // radius
-  0.001, // threshold
+  0.1, // threshold
 )
 composer.addPass(unrealBloomPass)
 
-let stats: Stats | undefined
-if (!import.meta.env.PROD) {
-  stats = new Stats()
-  stats.showPanel(0)
-  document.body.appendChild(stats.dom)
-}
+const stats = new Stats()
+stats.showPanel(0)
+document.body.appendChild(stats.dom)
 
 const tick = () => {
   stats?.begin()
   manupulator?.update()
+  flareMaterial.update()
   composer.render()
   controls.update()
   if (mixer) {

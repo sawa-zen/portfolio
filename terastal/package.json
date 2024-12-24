@@ -3,17 +3,21 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "http://sawa-zen.github.io/portfolio/terastal",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "tsc && vite build --base=/portfolio/terastal && gh-pages -d dist -e terastal"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@types/gh-pages": "^6",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/three": "^0.168.0",
     "@vitejs/plugin-react": "^4.3.3",
+    "gh-pages": "^6.2.0",
     "react-device-detect": "^2.2.3",
     "typescript": "^5.5.3",
     "vite": "^5.4.1",
