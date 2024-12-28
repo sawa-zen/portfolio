@@ -4167,7 +4167,7 @@ void main() {
 
   // 極座標変換
   uv = xy2pol(uv);
-  uv.x = uv.x * 2.0;
+  uv.x = uv.x * 4.0;
   uv.y = uv.y - uTime * 0.01;
 
   float offset = 0.03;
