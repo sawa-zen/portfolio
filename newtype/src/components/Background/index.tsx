@@ -4,8 +4,8 @@ import fragmentShader from './fragment.glsl?raw'
 
 export const Background = () => {
   return (
-    <mesh rotation={[0, Math.PI / 2, Math.PI / 2]}>
-      <sphereGeometry args={[50, 32, 8]} />
+    <mesh rotation={[0, Math.PI / 2, Math.PI / 2]} scale={[1, 5, 1]}>
+      <sphereGeometry args={[15, 32, 8]} />
       <shaderMaterial
         side={BackSide}
         uniforms={{
@@ -15,7 +15,6 @@ export const Background = () => {
         }}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
-        transparent
       />
     </mesh>
   )
