@@ -1,0 +1,34 @@
+{
+  "name": "sawa-zen-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "homepage": "http://sawa-zen.github.io/portfolio/newtype",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "deploy": "tsc && vite build --base=/portfolio/terastal && gh-pages -d dist -e terastal"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/gh-pages": "^6",
+    "@types/react": "^19.1.3",
+    "@types/react-dom": "^19.1.3",
+    "@types/three": "^0.168.0",
+    "@vitejs/plugin-react": "^4.3.3",
+    "gh-pages": "^6.2.0",
+    "react-device-detect": "^2.2.3",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.1",
+    "vite-tsconfig-paths": "^5.1.3"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.1.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "stats.js": "^0.17.0",
+    "three": "^0.168.0"
+  },
+  "packageManager": "yarn@4.5.3"
+}
