@@ -7,7 +7,7 @@ import { Suspense } from 'react';
 
 createRoot(document.getElementById('root')!).render(
   <Canvas
-    camera={{ position: [0, 0, 0], fov: 120 }}
+    camera={{ position: [0, 0, 0.1], fov: 120 }}
   >
     <App />
     <Suspense>
