@@ -4,7 +4,8 @@ import react from "@vitejs/plugin-react"
 export default defineConfig({
   // local ip からもアクセスできるようにする
   server: {
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    allowedHosts: true,
   },
   plugins: [react()],
   css: {
