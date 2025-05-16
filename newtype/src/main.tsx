@@ -10,11 +10,12 @@ const store = createXRStore()
 
 createRoot(document.getElementById('root')!).render(
   <Canvas
-    gl={{ alpha: true, antialias: true, pixelRatio: 1 }}
+    gl={{ antialias: true, pixelRatio: 1 }}
+    style={{ background: '#000000' }}
     camera={{ position: [0, 0, 1], fov: 120, near: 1 }}
   >
     <XR store={store}>
-      <XROrigin position={[0, 0, 15]} />
+      <XROrigin position={[0, -1.5, 15]} />
       <App />
       <Suspense>
         <OrbitControls />

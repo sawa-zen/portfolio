@@ -10,7 +10,7 @@ void main() {
   vec3 color4 = vec3(0.016, 0.200, 0.267);  // 043344（最上部）
 
   // 各セクションの開始位置
-  float color1_solid_end = 0.04;    // color1の単色領域終了位置
+  float color1_solid_end = 0.2;    // color1の単色領域終了位置
   float color1_grad_end = 0.4;      // color1→color2のグラデーション終了位置
   float color2_grad_end = 0.45;     // color2→color3のグラデーション終了位置
   float color3_grad_end = 0.5;      // color3→color4のグラデーション終了位置
