@@ -9,7 +9,7 @@ const PARTICLE_COUNT = 200
 export const SparkParticles = () => {
   const points = useRef<Points>(null!)
   const material = useRef<ShaderMaterial>(null!)
-  const sparkTexture = useLoader(TextureLoader, '/spark.png')
+  const sparkTexture = useLoader(TextureLoader, './spark.png')
 
   useEffect(() => {
     // パーティクルの位置をランダムに設定
