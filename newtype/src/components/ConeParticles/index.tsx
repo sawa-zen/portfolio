@@ -1,15 +1,19 @@
-import { AdditiveBlending, Blending, Group, Mesh, ShaderMaterial, Vector3 } from "three"
+import { AdditiveBlending, Blending, Color, Group, Mesh, ShaderMaterial } from "three"
 import { useFrame } from "@react-three/fiber"
 import { useEffect, useRef } from "react"
-import chroma from "chroma-js"
 import vertexShader from './vertex.glsl?raw'
 import fragmentShader from './fragment.glsl?raw'
 
 interface Props {
-  baseColor: string
+  baseColor: number
   blending?: Blending
   rotatingSpeed?: number
   streamSpeed?: number
+  noiseStrength?: number // 0~1
+  startY?: number
+  endY?: number
+  uvScaleX?: number
+  uvScaleY?: number
   position?: [number, number, number]
   scale?: [number, number, number]
   rotation?: [number, number, number]
@@ -20,6 +24,11 @@ export const ConeParticles = ({
   blending = AdditiveBlending,
   rotatingSpeed = 1,
   streamSpeed = 1,
+  noiseStrength = 0.5,
+  startY = 0.3,
+  endY = 0.7,
+  uvScaleX = 30.0,
+  uvScaleY = 25.0,
   ...otherProps
 }: Props) => {
   console.log('baseColor', baseColor)
@@ -51,11 +60,18 @@ export const ConeParticles = ({
         <shaderMaterial
           transparent
           blending={blending}
-          side={2}
+          side={1}
+          depthWrite={false}
+          depthTest={false}
           uniforms={{
             uTime: { value: 0 },
             uStreamSpeed: { value: streamSpeed },
-            uBaseColor: { value: new Vector3(...chroma(baseColor).rgb()) },
+            uBaseColor: { value: new Color(baseColor) },
+            uNoiseStrength: { value: noiseStrength },
+            uStartY: { value: startY },
+            uEndY: { value: endY },
+            uUvScaleX: { value: uvScaleX },
+            uUvScaleY: { value: uvScaleY },
           }}
           vertexShader={vertexShader}
           fragmentShader={fragmentShader}

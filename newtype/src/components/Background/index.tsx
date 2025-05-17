@@ -1,4 +1,4 @@
-import { BackSide, Color, Vector2 } from "three"
+import { BackSide, Color } from "three"
 import vertexShader from './vertex.glsl?raw'
 import fragmentShader from './fragment.glsl?raw'
 
@@ -11,7 +11,6 @@ export const Background = () => {
         uniforms={{
           uTime: { value: 0 },
           uColor: { value: new Color(0x000000) },
-          uResolution: { value: new Vector2(window.innerWidth, window.innerHeight) },
         }}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}

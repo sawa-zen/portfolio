@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')!).render(
   <Canvas
     gl={{ antialias: true, pixelRatio: 1 }}
     style={{ background: '#000000' }}
-    camera={{ position: [0, 0, 1], fov: 120, near: 1 }}
+    camera={{ position: [0, 0, 1], fov: 120, near: 0.01 }}
   >
     <XR store={store}>
       <XROrigin position={[0, -1.5, 15]} />

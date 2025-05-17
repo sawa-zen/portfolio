@@ -1,5 +1,4 @@
 uniform float uTime;
-uniform vec2 uResolution;
 varying vec2 vUv;
 
 void main() {
@@ -12,8 +11,8 @@ void main() {
   // 各セクションの開始位置
   float color1_solid_end = 0.2;    // color1の単色領域終了位置
   float color1_grad_end = 0.4;      // color1→color2のグラデーション終了位置
-  float color2_grad_end = 0.45;     // color2→color3のグラデーション終了位置
-  float color3_grad_end = 0.5;      // color3→color4のグラデーション終了位置
+  float color2_grad_end = 0.44;     // color2→color3のグラデーション終了位置
+  float color3_grad_end = 0.48;      // color3→color4のグラデーション終了位置
 
   float y = vUv.y;
   vec3 color;

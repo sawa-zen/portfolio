@@ -1,7 +1,12 @@
 uniform float uTime;
 varying vec2 vUv;
+uniform float uNoiseStrength;
 uniform vec3 uBaseColor;
+uniform float uStartY;
+uniform float uEndY;
 uniform float uStreamSpeed;
+uniform float uUvScaleX;
+uniform float uUvScaleY;
 
 /**
  * 乱数生成
@@ -48,21 +53,18 @@ vec3 hsv2rgb(vec3 hsv) {
 void main() {
   // x方向をsin関数で周期的にマッピングすることで、左右がシームレスにつながるようにする
   float x = sin(vUv.x * 6.28318530718) * 0.5 + 0.5;  // 2πで1周期
-  vec2 pos = vec2(x * 30.0, vUv.y * 25.0 + uTime * uStreamSpeed);     // ノイズのスケール（y方向に時間を加算）
+  vec2 pos = vec2(x * uUvScaleX, vUv.y * uUvScaleY + uTime * uStreamSpeed);     // ノイズのスケール（y方向に時間を加算）
   float valueNoise = generateValueNoise(pos);           // ノイズ値
 
   // ノイズを二値化して水玉効果を作成
-  float dots = step(0.95, valueNoise);
+  float dots = step(1.0 - uNoiseStrength, valueNoise);
 
-  // 赤色のみを使用した色の設定
-  vec3 dotColor = uBaseColor * dots;
+  // フェードイン効果（下部）
+  float fadeIn = smoothstep(1.0 - uStartY, 1.0 - (uStartY+0.1), vUv.y);
+  // フェードアウト効果（上部）
+  float fadeOut = smoothstep(0.0, 1.0 - uEndY, vUv.y);
 
-  // アルファ値を二値化とy座標に基づいて調整
-  // y座標が0.7より上の場合は完全に透明
-  // y座標が0.3より下の場合は通常の不透明度
-  // その間はグラデーション
-  float gradientAlpha = smoothstep(0.7, 0.6, vUv.y);
-  float alpha = dots * 0.7 * gradientAlpha;
+  float alpha = dots * 0.7 * fadeIn * fadeOut;
 
-  gl_FragColor = vec4(dotColor, alpha);
+  gl_FragColor = vec4(uBaseColor, alpha);
 }
