@@ -4,7 +4,7 @@ import fragmentShader from './fragment.glsl?raw'
 
 export const Background = () => {
   return (
-    <mesh rotation={[0, Math.PI / 2, Math.PI / 2]} scale={[1, 5, 1]}>
+    <mesh rotation={[0, Math.PI / 2, Math.PI / 2]} scale={[3, 15, 3]}>
       <sphereGeometry args={[15, 32, 8]} />
       <shaderMaterial
         side={BackSide}

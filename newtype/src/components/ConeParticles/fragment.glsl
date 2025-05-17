@@ -7,6 +7,11 @@ uniform float uEndY;
 uniform float uStreamSpeed;
 uniform float uUvScaleX;
 uniform float uUvScaleY;
+uniform int uGaussian;
+
+// ガウスブラーのパラメータ
+const float blurScale = 0.002; // ブラーの強度
+const int samples = 3; // サンプル数
 
 /**
  * 乱数生成
@@ -50,21 +55,55 @@ vec3 hsv2rgb(vec3 hsv) {
   return hsv.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), hsv.y);
 }
 
-void main() {
-  // x方向をsin関数で周期的にマッピングすることで、左右がシームレスにつながるようにする
-  float x = sin(vUv.x * 6.28318530718) * 0.5 + 0.5;  // 2πで1周期
-  vec2 pos = vec2(x * uUvScaleX, vUv.y * uUvScaleY + uTime * uStreamSpeed);     // ノイズのスケール（y方向に時間を加算）
-  float valueNoise = generateValueNoise(pos);           // ノイズ値
-
-  // ノイズを二値化して水玉効果を作成
+/**
+ * ドットパターンのアルファ値を計算
+ */
+float calculateDotAlpha(vec2 uv) {
+  float x = sin(uv.x * 6.28318530718) * 0.5 + 0.5;
+  vec2 pos = vec2(x * uUvScaleX, uv.y * uUvScaleY + uTime * uStreamSpeed);
+  float valueNoise = generateValueNoise(pos);
   float dots = step(1.0 - uNoiseStrength, valueNoise);
+  float fadeIn = smoothstep(1.0 - uStartY, 1.0 - (uStartY+0.1), uv.y);
+  float fadeOut = smoothstep(0.0, 1.0 - uEndY, uv.y);
+  return dots * 0.7 * fadeIn * fadeOut;
+}
 
-  // フェードイン効果（下部）
-  float fadeIn = smoothstep(1.0 - uStartY, 1.0 - (uStartY+0.1), vUv.y);
-  // フェードアウト効果（上部）
-  float fadeOut = smoothstep(0.0, 1.0 - uEndY, vUv.y);
+/**
+ * ガウス分布の重みを計算
+ */
+float calculateGaussianWeight(int i, int totalSamples) {
+  return exp(-float(i * i) / (2.0 * float(totalSamples * totalSamples)));
+}
 
-  float alpha = dots * 0.7 * fadeIn * fadeOut;
+/**
+ * 縦方向のガウスブラーを適用
+ */
+float applyVerticalGaussianBlur(vec2 uv) {
+  float blurredAlpha = 0.0;
+  float totalWeight = 0.0;
 
-  gl_FragColor = vec4(uBaseColor, alpha);
+  if (uGaussian < 1) {
+    vec2 sampleUv = vec2(uv.x, uv.y);
+    float sampleAlpha = calculateDotAlpha(sampleUv);
+    float weight = calculateGaussianWeight(1, 1);
+    blurredAlpha += sampleAlpha * weight;
+    totalWeight += weight;
+    return blurredAlpha / totalWeight;
+  }
+
+  for(int i = -samples; i <= samples; i++) {
+    float offset = float(i) * blurScale;
+    vec2 sampleUv = vec2(uv.x, uv.y + offset);
+    float sampleAlpha = calculateDotAlpha(sampleUv);
+    float weight = calculateGaussianWeight(i, samples);
+    blurredAlpha += sampleAlpha * weight;
+    totalWeight += weight;
+  }
+
+  return blurredAlpha / totalWeight;
+}
+
+void main() {
+  float blurredAlpha = applyVerticalGaussianBlur(vUv);
+  gl_FragColor = vec4(uBaseColor, blurredAlpha);
 }

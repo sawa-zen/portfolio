@@ -12,6 +12,7 @@ interface Props {
   noiseStrength?: number // 0~1
   startY?: number
   endY?: number
+  gaussian?: boolean
   uvScaleX?: number
   uvScaleY?: number
   position?: [number, number, number]
@@ -29,6 +30,7 @@ export const ConeParticles = ({
   endY = 0.7,
   uvScaleX = 30.0,
   uvScaleY = 25.0,
+  gaussian = false,
   ...otherProps
 }: Props) => {
   console.log('baseColor', baseColor)
@@ -62,7 +64,7 @@ export const ConeParticles = ({
           blending={blending}
           side={1}
           depthWrite={false}
-          depthTest={false}
+          // depthTest={false}
           uniforms={{
             uTime: { value: 0 },
             uStreamSpeed: { value: streamSpeed },
@@ -72,6 +74,7 @@ export const ConeParticles = ({
             uEndY: { value: endY },
             uUvScaleX: { value: uvScaleX },
             uUvScaleY: { value: uvScaleY },
+            uGaussian: { value: gaussian ? 1 : 0 },
           }}
           vertexShader={vertexShader}
           fragmentShader={fragmentShader}
