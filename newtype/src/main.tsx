@@ -5,7 +5,6 @@ import { OrbitControls } from "@react-three/drei";
 import { App, ColorType } from './App'
 import './styles.css'
 import { createXRStore, XR, XROrigin } from '@react-three/xr';
-import { DotParticles } from './components/DotParticles';
 
 const store = createXRStore()
 

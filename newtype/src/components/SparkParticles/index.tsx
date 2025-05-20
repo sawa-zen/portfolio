@@ -1,6 +1,6 @@
 import { useFrame, useLoader } from "@react-three/fiber"
 import { useEffect, useMemo, useRef } from "react"
-import { AdditiveBlending, BufferAttribute, Color, LinearSRGBColorSpace, Mesh, Points, ShaderMaterial, TextureLoader } from "three"
+import { AdditiveBlending, BufferAttribute, Color, LinearSRGBColorSpace, Points, ShaderMaterial, TextureLoader } from "three"
 import vertexShader from './vertex.glsl?raw'
 import fragmentShader from './fragment.glsl?raw'
 
