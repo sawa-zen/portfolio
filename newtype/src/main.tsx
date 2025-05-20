@@ -14,22 +14,24 @@ const Root = () => {
   return (
     <>
       <div className="buttons">
-        <button
-          className='button'
-          onClick={() => {
-            setColorType('machu')
-          }}
-        >
-          Machu
-        </button>
-        <button
-          className='button'
-          onClick={() => {
-            setColorType('nyaan')
-          }}
-        >
-          Nyaan
-        </button>
+        <div className="color-buttons">
+          <button
+            className='button'
+            onClick={() => {
+              setColorType('machu')
+            }}
+          >
+            Machu
+          </button>
+          <button
+            className='button'
+            onClick={() => {
+              setColorType('nyaan')
+            }}
+          >
+            Nyaan
+          </button>
+        </div>
         <button
           className='button'
           onClick={() => {
