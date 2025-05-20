@@ -85,13 +85,11 @@ export const App = ({ colorType }: Props) => {
   useEffect(() => {
     // colorTypeが変更されたらレンダラーをリセット
     gl.dispose()
-    gl.setSize(gl.domElement.clientWidth, gl.domElement.clientHeight)
   }, [colorType, gl])
 
   return (
     <>
       <Background colors={color.background} />
-      <DotParticles />
       <SparkParticles baseColor={color.sparks.color1} />
 
       {/* Layer1 */}

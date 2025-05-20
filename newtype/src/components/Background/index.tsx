@@ -1,4 +1,5 @@
-import { BackSide, Color, LinearSRGBColorSpace } from "three"
+import { BackSide, Color, LinearSRGBColorSpace, ShaderMaterial } from "three"
+import { useMemo, useRef } from "react"
 import vertexShader from './vertex.glsl?raw'
 import fragmentShader from './fragment.glsl?raw'
 
@@ -12,18 +13,22 @@ type Props = {
 }
 
 export const Background = ({ colors }: Props) => {
+  const material = useRef<ShaderMaterial>(null!)
+
+  const uniforms = useMemo(() => ({
+    uColor1: { value: new Color().setHex(colors.color1, LinearSRGBColorSpace) },
+    uColor2: { value: new Color().setHex(colors.color2, LinearSRGBColorSpace) },
+    uColor3: { value: new Color().setHex(colors.color3, LinearSRGBColorSpace) },
+    uColor4: { value: new Color().setHex(colors.color4, LinearSRGBColorSpace) },
+  }), [colors.color1, colors.color2, colors.color3, colors.color4])
+
   return (
     <mesh rotation={[0, Math.PI / 2, Math.PI / 2]} scale={[3, 15, 3]}>
       <sphereGeometry args={[15, 32, 8]} />
       <shaderMaterial
+        ref={material}
         side={BackSide}
-        uniforms={{
-          uTime: { value: 0 },
-          uColor1: { value: new Color().setHex(colors.color1, LinearSRGBColorSpace) },
-          uColor2: { value: new Color().setHex(colors.color2, LinearSRGBColorSpace) },
-          uColor3: { value: new Color().setHex(colors.color3, LinearSRGBColorSpace) },
-          uColor4: { value: new Color().setHex(colors.color4, LinearSRGBColorSpace) },
-        }}
+        uniforms={uniforms}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
       />

@@ -1,6 +1,6 @@
 import { useFrame, useLoader } from "@react-three/fiber"
-import { useEffect, useRef } from "react"
-import { AdditiveBlending, BufferAttribute, Color, LinearSRGBColorSpace, Points, ShaderMaterial, TextureLoader } from "three"
+import { useEffect, useMemo, useRef } from "react"
+import { AdditiveBlending, BufferAttribute, Color, LinearSRGBColorSpace, Mesh, Points, ShaderMaterial, TextureLoader } from "three"
 import vertexShader from './vertex.glsl?raw'
 import fragmentShader from './fragment.glsl?raw'
 
@@ -12,8 +12,15 @@ interface Props {
 
 export const SparkParticles = ({ baseColor = 0x0078ff }: Props) => {
   const points = useRef<Points>(null!)
-  const material = useRef<ShaderMaterial>(null!)
   const sparkTexture = useLoader(TextureLoader, './spark.png')
+  const uniforms = useMemo(() => ({
+    uTime: { value: 0 },
+    uBaseColor: { value: new Color().setHex(baseColor, LinearSRGBColorSpace) },
+    uTexture: { value: sparkTexture },
+    uMinPointSize: { value: 0.5 },
+    uMaxPointSize: { value: 150.0 },
+    uDistanceNormalizeFactor: { value: 10.0 }
+  }), [baseColor, sparkTexture])
 
   useEffect(() => {
     // パーティクルの位置をランダムに設定
@@ -34,9 +41,16 @@ export const SparkParticles = ({ baseColor = 0x0078ff }: Props) => {
     geometry.setAttribute('uv', new BufferAttribute(uvs, 2))
   }, [])
 
+  useEffect(() => {
+    if (points.current.material && points.current.material instanceof ShaderMaterial) {
+      points.current.material.needsUpdate = true
+      points.current.material.uniforms.uTime.value = 0
+    }
+  }, [points.current?.material])
+
   useFrame((state) => {
-    if (material.current) {
-      material.current.uniforms.uTime.value = state.clock.elapsedTime
+    if (points.current.material && points.current.material instanceof ShaderMaterial) {
+      points.current.material.uniforms.uTime.value = state.clock.elapsedTime
     }
   })
 
@@ -44,20 +58,13 @@ export const SparkParticles = ({ baseColor = 0x0078ff }: Props) => {
     <points ref={points} position={[0, 0, -10]}>
       <bufferGeometry />
       <shaderMaterial
-        ref={material}
+        key={'spark'}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         transparent
         depthWrite={false}
         blending={AdditiveBlending}
-        uniforms={{
-          uTime: { value: 0 },
-          uBaseColor: { value: new Color().setHex(baseColor, LinearSRGBColorSpace) },
-          uTexture: { value: sparkTexture },
-          uMinPointSize: { value: 0.5 },
-          uMaxPointSize: { value: 150.0 },
-          uDistanceNormalizeFactor: { value: 10.0 }
-        }}
+        uniforms={uniforms}
         side={2} // THREE.DoubleSide
       />
     </points>

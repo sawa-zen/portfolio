@@ -1,6 +1,6 @@
 import { AdditiveBlending, Blending, Color, Group, Mesh, ShaderMaterial } from "three"
 import { useFrame } from "@react-three/fiber"
-import { useEffect, useRef } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import vertexShader from './vertex.glsl?raw'
 import fragmentShader from './fragment.glsl?raw'
 
@@ -33,7 +33,6 @@ export const ConeParticles = ({
   gaussian = false,
   ...otherProps
 }: Props) => {
-  console.log('baseColor', baseColor)
   const groupRef = useRef<Group>(null)
   const meshRef = useRef<Mesh>(null)
 
@@ -53,6 +52,18 @@ export const ConeParticles = ({
     }
   })
 
+  const uniforms = useMemo(() => ({
+    uTime: { value: 0 },
+    uStreamSpeed: { value: streamSpeed },
+    uBaseColor: { value: new Color(baseColor) },
+    uNoiseStrength: { value: noiseStrength },
+    uStartY: { value: startY },
+    uEndY: { value: endY },
+    uUvScaleX: { value: uvScaleX },
+    uUvScaleY: { value: uvScaleY },
+    uGaussian: { value: gaussian ? 1 : 0 },
+  }), [streamSpeed, baseColor, noiseStrength, startY, endY, uvScaleX, uvScaleY, gaussian])
+
   return (
     <group ref={groupRef} {...otherProps}>
       <mesh ref={meshRef} rotation={[0, Math.PI / 2, -Math.PI / 2]}>
@@ -65,17 +76,7 @@ export const ConeParticles = ({
           side={1}
           depthWrite={false}
           // depthTest={false}
-          uniforms={{
-            uTime: { value: 0 },
-            uStreamSpeed: { value: streamSpeed },
-            uBaseColor: { value: new Color(baseColor) },
-            uNoiseStrength: { value: noiseStrength },
-            uStartY: { value: startY },
-            uEndY: { value: endY },
-            uUvScaleX: { value: uvScaleX },
-            uUvScaleY: { value: uvScaleY },
-            uGaussian: { value: gaussian ? 1 : 0 },
-          }}
+          uniforms={uniforms}
           vertexShader={vertexShader}
           fragmentShader={fragmentShader}
         />

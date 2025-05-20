@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber"
-import { useEffect, useRef } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { BufferAttribute, Points, ShaderMaterial } from "three"
 import vertexShader from './vertex.glsl?raw'
 import fragmentShader from './fragment.glsl?raw'
@@ -29,6 +29,10 @@ export const DotParticles = () => {
     }
   })
 
+  const uniforms = useMemo(() => ({
+    uTime: { value: 0 }
+  }), [])
+
   return (
     <points ref={points} position={[0, 0, -10]}>
       <bufferGeometry />
@@ -38,9 +42,7 @@ export const DotParticles = () => {
         fragmentShader={fragmentShader}
         transparent
         depthWrite={true}
-        uniforms={{
-          uTime: { value: 0 }
-        }}
+        uniforms={uniforms}
         side={2} // THREE.DoubleSide
       />
     </points>

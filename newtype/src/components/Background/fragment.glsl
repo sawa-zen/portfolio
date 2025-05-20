@@ -1,4 +1,3 @@
-uniform float uTime;
 uniform vec3 uColor1;  // 最下部の色
 uniform vec3 uColor2;
 uniform vec3 uColor3;

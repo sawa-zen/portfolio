@@ -5,6 +5,7 @@ import { OrbitControls } from "@react-three/drei";
 import { App, ColorType } from './App'
 import './styles.css'
 import { createXRStore, XR, XROrigin } from '@react-three/xr';
+import { DotParticles } from './components/DotParticles';
 
 const store = createXRStore()
 
@@ -50,6 +51,7 @@ const Root = () => {
         <XR store={store}>
           <XROrigin position={[0, -1.5, 15]} />
           <App colorType={colorType} />
+          <DotParticles />
           <Suspense>
             <OrbitControls />
           </Suspense>
