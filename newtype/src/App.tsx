@@ -1,9 +1,9 @@
 import { Background } from './components/Background'
-import { DotParticles } from './components/DotParticles'
 import { SparkParticles } from './components/SparkParticles'
 import { ConeParticles } from './components/ConeParticles'
-import { use, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useThree } from '@react-three/fiber'
+import { DotParticles } from './components/DotParticles'
 
 export type ColorType = 'nyaan' | 'machu'
 
@@ -91,6 +91,7 @@ export const App = ({ colorType }: Props) => {
     <>
       <Background colors={color.background} />
       <SparkParticles baseColor={color.sparks.color1} />
+      <DotParticles />
 
       {/* Layer1 */}
       <ConeParticles

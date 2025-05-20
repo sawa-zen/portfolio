@@ -51,7 +51,6 @@ const Root = () => {
         <XR store={store}>
           <XROrigin position={[0, -1.5, 15]} />
           <App colorType={colorType} />
-          <DotParticles />
           <Suspense>
             <OrbitControls />
           </Suspense>
