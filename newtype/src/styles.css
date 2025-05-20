@@ -1,10 +1,15 @@
 html,body,#root {height:100%;margin:unset;}
 
-.vr_button {
+.buttons {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 9999;
+  display: flex;
+  gap: 16px;
+}
+
+.button {
   padding: 12px 24px;
   background-color: rgba(0, 0, 0, 0.7);
   border: 2px solid rgba(255, 255, 255, 0.2);
@@ -16,7 +21,7 @@ html,body,#root {height:100%;margin:unset;}
   transition: all 0.3s ease;
 }
 
-.vr_button:hover {
+.button:hover {
   background-color: rgba(0, 0, 0, 0.9);
   border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(-2px);

@@ -2,9 +2,34 @@ import { Background } from './components/Background'
 import { DotParticles } from './components/DotParticles'
 import { SparkParticles } from './components/SparkParticles'
 import { ConeParticles } from './components/ConeParticles'
+import { use, useEffect } from 'react'
+import { useThree } from '@react-three/fiber'
 
+export type ColorType = 'nyaan' | 'machu'
 
-const colors = {
+interface Color {
+  background: {
+    color1: number,
+    color2: number,
+    color3: number,
+    color4: number,
+  },
+  sparks: {
+    color1: number,
+  },
+  cones: {
+    layer1: number,
+    layer2: number,
+    layer3: number,
+    layer4: number,
+    layer5: number,
+    layer6: number,
+    layer7: number,
+    layer8: number,
+  }
+}
+
+const colors: Record<ColorType, Color> = {
   machu: {
     background: {
       color1: 0xFDFAA0,
@@ -25,11 +50,44 @@ const colors = {
       layer7: 0xAAFC6C,
       layer8: 0xED54AA,
     }
-  }
+  },
+    nyaan: {
+    background: {
+      color1: 0xFDFAA0,
+      color2: 0x94D6FF,
+      color3: 0xBD8AD5,
+      color4: 0x000B3D,
+    },
+    sparks: {
+      color1: 0x9370DB,
+    },
+    cones: {
+      layer1: 0x3B2969,
+      layer2: 0x402F6B,
+      layer3: 0x64B7FE,
+      layer4: 0x2CC1A3,
+      layer5: 0xFFD700,
+      layer6: 0xF9FF00,
+      layer7: 0x9370DB,
+      layer8: 0xFFD59D,
+    }
+  },
 }
 
-export const App = () => {
-  const color = colors.machu
+interface Props {
+  colorType?: ColorType
+}
+
+export const App = ({ colorType }: Props) => {
+  const color = colorType ? colors[colorType] : colors.machu
+  const { gl } = useThree()
+
+  useEffect(() => {
+    // colorTypeが変更されたらレンダラーをリセット
+    gl.dispose()
+    gl.setSize(gl.domElement.clientWidth, gl.domElement.clientHeight)
+  }, [colorType, gl])
+
   return (
     <>
       <Background colors={color.background} />
