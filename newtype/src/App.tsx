@@ -3,40 +3,44 @@ import { DotParticles } from './components/DotParticles'
 import { SparkParticles } from './components/SparkParticles'
 import { ConeParticles } from './components/ConeParticles'
 
+
 const colors = {
-  background: {
-    color1: 0xFDFAA0,
-    color2: 0xEFA8D0,
-    color3: 0x55BFBB,
-    color4: 0x043344,
-  },
-  sparks: {
-    color1: 0x55BFBB,
-  },
-  cones: {
-    layer1: 0x005675,
-    layer2: 0x55BFBB,
-    layer3: 0x37817F,
-    layer4: 0x2CC1A3,
-    layer5: 0xFDFAA0,
-    layer6: 0xFE91CE,
-    layer7: 0xAAFC6C,
-    layer8: 0xED54AA,
+  machu: {
+    background: {
+      color1: 0xFDFAA0,
+      color2: 0xEFA8D0,
+      color3: 0x55BFBB,
+      color4: 0x043344,
+    },
+    sparks: {
+      color1: 0x55BFBB,
+    },
+    cones: {
+      layer1: 0x005675,
+      layer2: 0x55BFBB,
+      layer3: 0x37817F,
+      layer4: 0x2CC1A3,
+      layer5: 0xFDFAA0,
+      layer6: 0xFE91CE,
+      layer7: 0xAAFC6C,
+      layer8: 0xED54AA,
+    }
   }
 }
 
 export const App = () => {
+  const color = colors.machu
   return (
     <>
-      <Background colors={colors.background} />
+      <Background colors={color.background} />
       <DotParticles />
-      <SparkParticles baseColor={colors.sparks.color1} />
+      <SparkParticles baseColor={color.sparks.color1} />
 
       {/* Layer1 */}
       <ConeParticles
         position={[0, 0, 1]}
         scale={[0.9, 0.9, 1.0]}
-        baseColor={colors.cones.layer1}
+        baseColor={color.cones.layer1}
         rotatingSpeed={-0.3}
         streamSpeed={12.0}
         noiseStrength={0.05}
@@ -51,7 +55,7 @@ export const App = () => {
       <ConeParticles
         position={[0, 0, 1]}
         scale={[2, 2, 1.0]}
-        baseColor={colors.cones.layer2}
+        baseColor={color.cones.layer2}
         rotatingSpeed={0.3}
         streamSpeed={30.0}
         noiseStrength={0.15}
@@ -65,7 +69,7 @@ export const App = () => {
       <ConeParticles
         position={[0, 0, -18]}
         scale={[2, 2, 0.2]}
-        baseColor={colors.cones.layer3}
+        baseColor={color.cones.layer3}
         rotatingSpeed={-0.4}
         streamSpeed={30.0}
         noiseStrength={0.1}
@@ -78,7 +82,7 @@ export const App = () => {
       <ConeParticles
         position={[0, 0, 1]}
         scale={[3, 3, 1.5]}
-        baseColor={colors.cones.layer4}
+        baseColor={color.cones.layer4}
         rotatingSpeed={-0.2}
         streamSpeed={40.0}
         noiseStrength={0.1}
@@ -92,7 +96,7 @@ export const App = () => {
       <ConeParticles
         position={[0, 0, -14]}
         scale={[0.35, 0.35, 0.2]}
-        baseColor={colors.cones.layer5}
+        baseColor={color.cones.layer5}
         rotatingSpeed={0.3}
         streamSpeed={12.0}
         noiseStrength={0.5}
@@ -107,7 +111,7 @@ export const App = () => {
       <ConeParticles
         position={[0, 0, -18]}
         scale={[0.5, 0.5, 0.1]}
-        baseColor={colors.cones.layer6}
+        baseColor={color.cones.layer6}
         rotatingSpeed={-0.2}
         streamSpeed={8.0}
         noiseStrength={0.3}
@@ -122,7 +126,7 @@ export const App = () => {
       <ConeParticles
         position={[0, 0, 1]}
         scale={[0.4, 0.4, 1.0]}
-        baseColor={colors.cones.layer7}
+        baseColor={color.cones.layer7}
         rotatingSpeed={0.5}
         streamSpeed={18.0}
         noiseStrength={0.05}
@@ -135,7 +139,7 @@ export const App = () => {
         position={[0, 0, 1]}
         rotation={[0, 0, -Math.PI / 2]}
         scale={[0.5, 0.5, 1.0]}
-        baseColor={colors.cones.layer8}
+        baseColor={color.cones.layer8}
         rotatingSpeed={-0.3}
         streamSpeed={19.0}
         noiseStrength={0.05}
